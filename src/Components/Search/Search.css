@@ -1,10 +1,28 @@
 .input{
     padding: 10px;
     width: 30%;
-    margin: 20px auto;
+    margin: auto;
+    margin-top: 20px;
     border: none;
     border-bottom: 1px solid;
     outline: none;
     font-size: 16px;
+    text-align: center;
     
+    
+}
+.citySearch{
+    width: 31%;
+    margin: auto;
+ 
+  
+    padding: 5px;
+    margin-top: 0;
+  
+
+}
+.citySearch:hover{
+background-color: lightgray;
+cursor: pointer;
+
 }

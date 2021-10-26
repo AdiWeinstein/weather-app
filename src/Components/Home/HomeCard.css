@@ -5,18 +5,24 @@
     align-items: center;
     background: #F6F5FA;
     width: 100%;
-    max-width: 700px;
+    max-width: 750px;
     height: 100%;
     margin: 0 auto;
     border-radius: 20px;
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.16);
     font-weight: normal;
+    margin-top: 20px;
+    color: #606060;
+    
+}
+.cityInfo{
+    text-align: left;
 }
 
 .topLine {
     width: 550px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin: 20px;
 }
@@ -24,6 +30,10 @@
     display: flex;
     gap: 20px;
     align-items: center;
+}
+.city h2{
+    width: 100%;
+    white-space: nowrap;
 }
 
 .city p {
@@ -34,7 +44,7 @@
 img {
     /* background-image: url(""); */
     width: 80px;
-    height: 80px;
+    /* height: 80px; */
     background-size: contain;
 }
 
@@ -52,5 +62,22 @@ img {
 }
 .day {
     border: 1 px solid;
-    margin: 0 30px;
+    margin: 0 20px;
+}
+.icon{
+    width: 120px;
+}
+
+.day h4{
+    white-space: nowrap;
+    margin-bottom: 0px; 
+    font-weight: 400;
+
+    
+}
+.day h3{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-size: 14px;
 }
