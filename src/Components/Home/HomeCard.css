@@ -1,6 +1,7 @@
 .Card {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     flex-direction: column;
     align-items: center;
     background: #F6F5FA;
@@ -13,32 +14,52 @@
     font-weight: normal;
     margin-top: 20px;
     color: #606060;
+    font-family: 'NTR', sans-serif;
+    padding: 20px;
     
 }
 .cityInfo{
     text-align: left;
 }
+.city h2{
+    font-size: 30px;
+    margin: 0;
+
+}
 
 .topLine {
-    width: 550px;
+    width: 650px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 .cityTemp {
     display: flex;
-    gap: 20px;
+    gap: 35px;
     align-items: center;
 }
-.city h2{
-    width: 100%;
+.city .cityName{
+    /* width: 100%; */
     white-space: nowrap;
+    font-size: 40px;
+    margin-bottom: 0;
+   
+}
+.city .currentTemp{
+    /* width: 100%; */
+    white-space: nowrap;
+    font-size: 40px;
+    margin-top: 15px;
+    text-align: left;
+    justify-content: start;
+    line-height: 15%;
+    font-weight: 200;
 }
 
 .city p {
     font-size: 150%;
-    margin-top: 0;
+   margin-top: 0;
 }
 
 img {
@@ -59,18 +80,21 @@ img {
 .dayTemp {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    max-width: 750px;
+
 }
 .day {
     border: 1 px solid;
     margin: 0 20px;
 }
 .icon{
-    width: 120px;
+    width: 150px;
 }
 
 .day h4{
     white-space: nowrap;
-    margin-bottom: 0px; 
+    margin: 0px; 
     font-weight: 400;
 
     
@@ -80,4 +104,17 @@ img {
     letter-spacing: 2px;
     font-weight: 400;
     font-size: 14px;
+}
+.day p{
+    margin: 0;
+    margin-bottom: 20px;
+}
+.c-to-f-btn{
+    border: none;
+    border-radius: 15px;
+    background-color:#C0B3BC ;
+    font-family: 'NTR', sans-serif;
+    color: #606060;
+    padding: 0 15px;
+
 }

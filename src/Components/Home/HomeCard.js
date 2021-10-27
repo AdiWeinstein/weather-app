@@ -4,23 +4,30 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { MdOutlineFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
 import { LocationContext } from "../Context/CityContext";
 import DayTemp from "./DayTemp.js";
+import Current from "./Current";
 
 export default function HomeCard() {
-  const {
-    location,
-    city,
-    current,
-    forcast,
-    getCurrentCondition,
-    forcastFiveDays,
-    locationKey,
-  } = useContext(LocationContext);
+  const { city, current } = useContext(LocationContext);
 
-  const [fevoriteBtn, setFevoriteBtn] = useState(0);
   const [addFavorite, setAddFevorite] = useState(false);
-  const today = new Date();
 
-  //   const cityKey = location[0].Key
+  const [unit, setUnit] = useState("F");
+
+//   const oppositeUnit = unit === "C" ? "F" : "C";
+
+//   const convert = () => {
+//     if (unit === "C") {
+//       const newT = temp * 1.8 + 32;
+//       setTemp(Math.round(newT));
+//       setUnit(oppositeUnit);
+//     }
+
+//     if (unit === "F") {
+//       const newT = ((temp - 32) * 5) / 9;
+//       setTemp(Math.round(newT));
+//       setUnit(oppositeUnit);
+//     }
+//   };
 
   function addToFavorite(e) {
     if (addFavorite) {
@@ -30,41 +37,13 @@ export default function HomeCard() {
     }
   }
 
-  const iconNum = (num) => {
-    const stringNum = num + "";
-    const stringLen = stringNum.length;
+  console.log("current", current);
+  console.log("h2", city);
 
-    if (stringLen === 1) {
-      return "0" + stringNum;
-    } else {
-      return stringNum;
-    }
-  };
-
-  console.log('current', current);
-  console.log('h2', city);
   return (
     <div className="Card">
       <div className="topLine">
-        <div className="cityTemp">
-          <img className="icon"  src={current && current[0] && `https://developer.accuweather.com/sites/default/files/${iconNum(current[0].WeatherIcon)}-s.png`} alt="Weather App Icon"></img>
-          <div className="city">
-            {current ? (
-              <div>
-                {/* <h2>{city}</h2> */}
-                <h2>
-                  {current && current[0] && Math.round(current[0].Temperature.Metric.Value) || "NA"} 
-                  <span>&#176;</span>C
-                </h2>
-                <p>{current && current[0] && current[0].WeatherText || 'N/A'}</p>
-                <p>{}</p>
-              </div>
-            ) : (
-              <p>Type a city name</p>
-            )}
-          </div>
-        </div>
-
+        <Current unit={unit} />
         <div className="favoriteBtn" onClick={addToFavorite}>
           {addFavorite ? (
             <MdOutlineFavorite size="1.5em" />
@@ -74,8 +53,11 @@ export default function HomeCard() {
         </div>
       </div>
 
-    
-      <DayTemp iconNum = {iconNum}/>
+      <h2>Five Days Forcast</h2>
+      <DayTemp unit={unit} />
+      <button className="c-to-f-btn" >
+        °C / °F
+      </button>
     </div>
   );
 }
