@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { LocationContext } from "../Context/CityContext";
 
 function Current({ unit }) {
-  const { city, current, getCurrentCondition,iconNum } = useContext(LocationContext);
-  const [temp, setTemp] = useState();
+  const { city, current, getCurrentCondition, iconNum } =
+    useContext(LocationContext);
+   
+
 
   return (
     <div className="cityTemp">
@@ -25,14 +27,13 @@ function Current({ unit }) {
               <div className="cityInfo">
                 <h2 className="cityName">{city}</h2>
                 <h2 className="currentTemp">
-                  {i.temp || "N/A"}°{unit}
+                  {unit==="C" ? i.celsius : i.fahrenheit}°{unit}
                 </h2>
                 <p>{i.WeatherText || "N/A"}</p>
               </div>
             </div>
           </div>
         ))}
-    
     </div>
   );
 }

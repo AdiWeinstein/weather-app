@@ -1,11 +1,11 @@
 import "./HomeCard.css";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { LocationContext } from "../Context/CityContext";
 
-function DayTemp({unit}) {
-  const { forcast, forcastFiveDays,iconNum } = useContext(LocationContext);
-  
-  
+function DayTemp({ setUnit, selectedUnit}) {
+  const { forcast, forcastFiveDays, iconNum } = useContext(LocationContext);
+
+
   return (
     <div className="dayTemp">
       {forcast ? (
@@ -14,16 +14,17 @@ function DayTemp({unit}) {
             <div className="day" key={i}>
               <h3>{day.dayOfWeek || "N/O"}</h3>
               <img
-              className="img-icon"
-                src={`https://developer.accuweather.com/sites/default/files/${iconNum(day.icon)}-s.png`}
-                alt={day.iconPhrase}
+                className="img-icon"
+                src={`https://developer.accuweather.com/sites/default/files/${iconNum(
+                  day.icon
+                )}-s.png`}
+                alt={day.iconPhrase} 
               />
               <h4>{day.iconPhrase}</h4>
-              <p>
-                {day.min || "N/O"}°
-                / {day.max || "N/O"}°
-                {unit || "N/O"}
-              </p>
+              <span>
+                {(selectedUnit === "C") ? day.celsius.min : day.fahrenheit.min }° / {(selectedUnit === "C") ? day.celsius.max : day.fahrenheit.max }°
+                {selectedUnit}
+              </span>
             </div>
           );
         })

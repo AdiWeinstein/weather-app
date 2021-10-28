@@ -1,33 +1,27 @@
 // import DayTemp from "./DayTemp.js";
 import "./HomeCard.css";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import Switch from '@mui/material/Switch';
+import { Button } from '@mui/material';
+
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  toCelsius,
+} from "react";
 import { MdOutlineFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
 import { LocationContext } from "../Context/CityContext";
 import DayTemp from "./DayTemp.js";
 import Current from "./Current";
 
 export default function HomeCard() {
-  const { city, current } = useContext(LocationContext);
+  const { city, current, forcast, setForcast, setCurrent, forcastFiveDays, getCurrentCondition } =
+    useContext(LocationContext);
 
   const [addFavorite, setAddFevorite] = useState(false);
-
-  const [unit, setUnit] = useState("F");
-
-//   const oppositeUnit = unit === "C" ? "F" : "C";
-
-//   const convert = () => {
-//     if (unit === "C") {
-//       const newT = temp * 1.8 + 32;
-//       setTemp(Math.round(newT));
-//       setUnit(oppositeUnit);
-//     }
-
-//     if (unit === "F") {
-//       const newT = ((temp - 32) * 5) / 9;
-//       setTemp(Math.round(newT));
-//       setUnit(oppositeUnit);
-//     }
-//   };
+  const [unit, setUnit] = useState("C"||undefined)
+  const [degree, setDegree] = useState(true)
 
   function addToFavorite(e) {
     if (addFavorite) {
@@ -37,12 +31,33 @@ export default function HomeCard() {
     }
   }
 
+  const convertCelsiusToFahrenheit = (e) => {
+      setDegree(e.target.checked)
+      setUnit(unit ? "F" : "C")
+    //  if (unit) {
+    //    setUnit("F");
+    // } else {
+    //   setUnit("C");
+    //  }
+  };
+
+// const handleChange = (event) => {
+//     setDegree({
+//       ...unit,
+//       [event.target.name]: event.target.checked,
+//     });
+//     setUnit(unit ? "C" : "F")
+//   };
+
+  console.log("forcast", forcast);
   console.log("current", current);
   console.log("h2", city);
 
   return (
     <div className="Card">
       <div className="topLine">
+
+        {/* ...top card = Current... */}
         <Current unit={unit} />
         <div className="favoriteBtn" onClick={addToFavorite}>
           {addFavorite ? (
@@ -53,11 +68,19 @@ export default function HomeCard() {
         </div>
       </div>
 
+      {/* ...Five Days Forcast... */}
+
       <h2>Five Days Forcast</h2>
-      <DayTemp unit={unit} />
-      <button className="c-to-f-btn" >
-        °C / °F
-      </button>
+      <DayTemp  {...forcast} selectedUnit={unit} setUnit={setUnit}/>
+      
+      <Switch 
+    //   onClick={convertCelsiusToFahrenheit} 
+      name='C' 
+      inputProps={{'aria-label':'degree'}}
+      checked={degree} 
+      onChange={convertCelsiusToFahrenheit}
+      /> 
+      
     </div>
   );
 }

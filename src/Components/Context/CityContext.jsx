@@ -15,21 +15,28 @@ export const LocationContext = createContext({
   locationKey: "",
   setLocationKey: () => [],
   onPickCity: () => {},
-  iconNum:( )=> {}
+  iconNum:()=> {},
+  toCelsius: ()=> {},
+  ToFahrenheit: () => {}
+
 });
 
 export default function CityProvider({ children }) {
   const [city, setCity] = useState("");
-  const [location, setLocation] = useState([{}]);
+  const [location, setLocation] = useState([]);
   const [locationKey, setLocationKey] = useState("");
   const [current, setCurrent] = useState([]);
   const [forcast, setForcast] = useState([]);
-  const [cityInfo, setCityInfo] = useState([])
+  const [cityInfo, setCityInfo] = useState([]) 
 
-  const apiKey = "dmGRjl2NkdmY0G4pG3UrE8N6UTBFYoqi";
+  const apiKey = "bcRCpZIFPwMe4Eenx8Tq9PCZCcJpGHHE";
+
+  
+
+  // http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=Z228tGGPbOm9anIkeDwTWHbpAkLWUYZV&q=32.045%2C%2034.77
 
   const getLocation = (e) => {
-    // if (e.key === 'Enter'){
+    if (e.key === 'Enter' || city !== "" ){
     fetch(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`
     )
@@ -37,27 +44,18 @@ export default function CityProvider({ children }) {
       .then((data) => {
         console.log("Autocomplete data", data);
         setLocation(data);
-        // setCity('')
       });
-
-    // }
-    // getCurrentCondition()
+    }
   };
 
-  //fetch current weather
-  // const getCurrentCondition = (locationKey) => {
-  //   if (locationKey) {
-  //     fetch(
-  //       `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log("current Weather", data);
-  //         setCurrent(data);
-  //       });
-  //   }
-  // };
+  //convert celsius to fahrenheit
+  const ToFahrenheit = celsius => {
+    return Math.round(celsius * (9 / 5) + 32);
+  };
 
+  function toCelsius(fahrenheit) {
+    return Math.round((fahrenheit - 32) * 5 / 9);
+  }
 
   //fetch current weather
     const getCurrentCondition = (locationKey) => {
@@ -71,7 +69,8 @@ export default function CityProvider({ children }) {
           setCurrent(data.map((cityInfo) => {
             return {
               icon: cityInfo.WeatherIcon,
-              temp: Math.round(cityInfo.Temperature.Imperial.Value),
+              celsius: Math.round(cityInfo.Temperature.Metric.Value),
+              fahrenheit : Math.round(cityInfo.Temperature.Imperial.Value),
               WeatherText: cityInfo.WeatherText,
               today: cityInfo.LocalObservationDateTime
             }
@@ -82,20 +81,7 @@ export default function CityProvider({ children }) {
 
 
   // fetch  5 daily forecast
-  // const forcastFiveDays = (locationKey) => {
-  //   if (current) {
-  //     fetch(
-  //       `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}`
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log("forcast 5 days", data);
-  //         setForcast(data.DailyForecasts);
-  //       });
-  //   }
-  // };
 
-  
   const forcastFiveDays = (locationKey) => {
     const dayOfWeek = [
       "Sunday",
@@ -116,8 +102,14 @@ export default function CityProvider({ children }) {
           setForcast(data.DailyForecasts.map(df => {
             console.log("dayOfWeek", dayOfWeek[new Date(df.Date).getDay()])
             return{
-              min: df.Temperature.Minimum.Value,
-              max: df.Temperature.Maximum.Value,
+              fahrenheit:{
+                min: df.Temperature.Minimum.Value,
+                max: df.Temperature.Maximum.Value,
+              },
+              celsius:{
+                min: toCelsius(df.Temperature.Minimum.Value),
+                max: toCelsius(df.Temperature.Maximum.Value),
+              },
               dayOfWeek: dayOfWeek[new Date(df.Date).getDay()],
               icon: df.Day.Icon,
               iconPhrase: df.Day.IconPhrase
@@ -128,14 +120,14 @@ export default function CityProvider({ children }) {
   };
 
 
+
+//pick city from the autucomplete list
   const onPickCity = (city,i) => { 
     setCity(location[i].LocalizedName)
     setLocationKey(location[i].Key)
     setLocation([])
-    
-    console.log('city', city)
-    console.log('locationKey', locationKey)
-
+    // console.log('city', city)
+    // console.log('locationKey', locationKey)
    }
  
 
@@ -144,8 +136,13 @@ export default function CityProvider({ children }) {
     getCurrentCondition(locationKey);
     forcastFiveDays(locationKey);
     }
+
   }, [locationKey]);
 
+  console.log("forcast", forcast)
+
+
+// if icon num return one digit add "0" before
   const iconNum = (num) => {
     const stringNum = num + "";
     const stringLen = stringNum.length;
@@ -177,7 +174,9 @@ export default function CityProvider({ children }) {
         locationKey,
         setLocationKey,
         onPickCity,
-        iconNum
+        iconNum,
+        toCelsius,
+        ToFahrenheit
       }}
     >
       {children}
