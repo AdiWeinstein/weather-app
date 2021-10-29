@@ -20,7 +20,7 @@ export default function HomeCard() {
     useContext(LocationContext);
 
   const [addFavorite, setAddFevorite] = useState(false);
-  const [unit, setUnit] = useState("C"||undefined)
+  const [unit, setUnit] = useState('C')
   const [degree, setDegree] = useState(true)
 
   function addToFavorite(e) {
@@ -32,22 +32,21 @@ export default function HomeCard() {
   }
 
   const convertCelsiusToFahrenheit = (e) => {
-      setDegree(e.target.checked)
-      setUnit(unit ? "F" : "C")
-    //  if (unit) {
-    //    setUnit("F");
-    // } else {
-    //   setUnit("C");
-    //  }
+    setDegree(!degree)
+    if (degree) {
+      setUnit("F");
+    } else {
+      setUnit("C");
+    }
   };
 
-// const handleChange = (event) => {
-//     setDegree({
-//       ...unit,
-//       [event.target.name]: event.target.checked,
-//     });
-//     setUnit(unit ? "C" : "F")
-//   };
+  // const handleChange = (event) => {
+  //     setDegree({
+  //       ...unit,
+  //       [event.target.name]: event.target.checked,
+  //     });
+  //     setUnit(unit ? "C" : "F")
+  //   };
 
   console.log("forcast", forcast);
   console.log("current", current);
@@ -71,16 +70,16 @@ export default function HomeCard() {
       {/* ...Five Days Forcast... */}
 
       <h2>Five Days Forcast</h2>
-      <DayTemp  {...forcast} selectedUnit={unit} setUnit={setUnit}/>
-      
-      <Switch 
-    //   onClick={convertCelsiusToFahrenheit} 
-      name='C' 
-      inputProps={{'aria-label':'degree'}}
-      checked={degree} 
-      onChange={convertCelsiusToFahrenheit}
-      /> 
-      
+      <DayTemp  {...forcast} selectedUnit={unit} setUnit={setUnit} />
+
+      <Switch
+        //   onClick={convertCelsiusToFahrenheit} 
+        name='C'
+        inputProps={{ 'aria-label': 'degree' }}
+        // checked={degree}
+        onChange={convertCelsiusToFahrenheit}
+      />
+
     </div>
   );
 }
