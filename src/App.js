@@ -1,24 +1,39 @@
 import "./App.css";
+import React, {
+  useContext,
+  useEffect
+} from "react";
 import Header from "./Components/Header/Header";
 // import InputLocation from "./InputLocation.js";
 import HomeCard from "./Components/Home/HomeCard";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import FavoritePage from "./Components/Favorits/Favorits";
-import Search from './Components/Search/Search'
+import Favorites from "./Components/Favorites/Favorites.js";
+import Search from './Components/Search/Search';
+import { LocationContext } from "../src/Components/Context/CityContext";
 
 
 function App() {
+  const { setFavoriteCity } = useContext(LocationContext);
+
+  useEffect(() => {
+    const getFavoriteCity = JSON.parse(
+      localStorage.getItem('favoriteCity')
+    )
+    setFavoriteCity(getFavoriteCity)
+  }, [])
+
   return (
    
       <Router>
         <div className="App">
           <Header />
-          <Search /> 
+          
           <Switch>
             <Route path="/favorite">
-              <FavoritePage />
+              <Favorites/>
             </Route>
             <Route path="/" exact>
+              <Search /> 
               <HomeCard />
             </Route>
           </Switch>

@@ -1,0 +1,31 @@
+.favorite-card{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    
+    align-items: center;
+    width: 100%;
+    max-width: 750px;
+    height: 100%;
+    margin: 0 auto;
+    
+    font-weight: normal;
+    margin-top: 20px;
+    font-family: 'NTR', sans-serif;
+    padding: 20px;
+}
+
+.city-card{
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.16);
+    color: #606060;
+    background: #F6F5FA;
+    border-radius: 20px;
+}
+
+.remove-icon{
+    display: flex;
+    padding: 7px;
+}
+.remove-icon:hover{
+    transform: scale(1.3);
+}

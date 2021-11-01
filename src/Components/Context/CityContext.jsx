@@ -17,8 +17,11 @@ export const LocationContext = createContext({
   onPickCity: () => {},
   iconNum:()=> {},
   toCelsius: ()=> {},
-  ToFahrenheit: () => {}
-
+  ToFahrenheit: () => {},
+  favoriteCity: [],
+  setFavoriteCity: () => {},
+  favorite:"",
+  setFavorite:()=>{}
 });
 
 export default function CityProvider({ children }) {
@@ -27,16 +30,17 @@ export default function CityProvider({ children }) {
   const [locationKey, setLocationKey] = useState("");
   const [current, setCurrent] = useState([]);
   const [forcast, setForcast] = useState([]);
-  const [cityInfo, setCityInfo] = useState([]) 
+  const [favoriteCity, setFavoriteCity] = useState([]) 
+  const [favorite, setFevorite] = useState(false);
 
-  const apiKey = "bcRCpZIFPwMe4Eenx8Tq9PCZCcJpGHHE";
+  const apiKey = "9A3uh7M99D8J2TBiCqntOffSBHAcrAAB";
 
   
 
   // http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=Z228tGGPbOm9anIkeDwTWHbpAkLWUYZV&q=32.045%2C%2034.77
 
   const getLocation = (e) => {
-    if (e.key === 'Enter' || city !== "" ){
+    // if (e.key === 'Enter' || city !== "" ){
     fetch(
       `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`
     )
@@ -45,7 +49,7 @@ export default function CityProvider({ children }) {
         console.log("Autocomplete data", data);
         setLocation(data);
       });
-    }
+   // }
   };
 
   //convert celsius to fahrenheit
@@ -72,7 +76,7 @@ export default function CityProvider({ children }) {
               celsius: Math.round(cityInfo.Temperature.Metric.Value),
               fahrenheit : Math.round(cityInfo.Temperature.Imperial.Value),
               WeatherText: cityInfo.WeatherText,
-              today: cityInfo.LocalObservationDateTime
+              today: cityInfo.LocalObservationDateTime,
             }
           }));
         });
@@ -126,6 +130,7 @@ export default function CityProvider({ children }) {
     setCity(location[i].LocalizedName)
     setLocationKey(location[i].Key)
     setLocation([])
+    
     // console.log('city', city)
     // console.log('locationKey', locationKey)
    }
@@ -154,7 +159,6 @@ export default function CityProvider({ children }) {
     }
   };
 
-
  
 
   return (
@@ -176,7 +180,11 @@ export default function CityProvider({ children }) {
         onPickCity,
         iconNum,
         toCelsius,
-        ToFahrenheit
+        ToFahrenheit,
+        favoriteCity,
+        setFavoriteCity,
+        favorite, 
+        setFevorite
       }}
     >
       {children}

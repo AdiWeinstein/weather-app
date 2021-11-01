@@ -1,9 +1,9 @@
 import "./HomeCard.css";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { LocationContext } from "../Context/CityContext";
 
-function DayTemp({ setUnit, selectedUnit}) {
-  const { forcast, forcastFiveDays, iconNum } = useContext(LocationContext);
+function DayTemp({ selectedUnit}) {
+  const { forcast, iconNum } = useContext(LocationContext);
 
 
   return (

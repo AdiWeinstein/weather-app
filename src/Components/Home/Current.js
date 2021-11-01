@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {  useContext } from "react";
 import { LocationContext } from "../Context/CityContext";
 
-function Current({ unit }) {
-  const { city, current, getCurrentCondition, iconNum } =
+function Current({unit, handleFavoriteCityData}) {
+  const { city, current, iconNum } =
     useContext(LocationContext);
    
 
@@ -11,7 +11,7 @@ function Current({ unit }) {
     <div className="cityTemp">
       {current &&
         current.map((i, index) => (
-          <div className="cityTemp" key={index}>
+          <div className="cityTemp" key={index} onClick={()=>handleFavoriteCityData(i)}>
             <img
               className="icon"
               src={

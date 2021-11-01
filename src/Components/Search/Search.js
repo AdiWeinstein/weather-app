@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import "./Search.css";
-import { debounce, throttle } from 'lodash';
+// import { debounce } from 'lodash';
 
 import { LocationContext } from "../Context/CityContext";
 import { BiSearchAlt, BiX } from "react-icons/bi";
+
 
 function Search() {
   const {
@@ -14,28 +15,36 @@ function Search() {
     getLocation,
     onPickCity,
     setCurrent,
-    setForcast
+    setForcast,
+    setFevorite,
   } = useContext(LocationContext);
 
  
- 
 
-  const updateCity = (e) => {
-    const nextValue = e?.target?.value;
-    console.log('nextValue' , nextValue)
-    setCity(nextValue)
-    const delayedOnChange = debounce((nextValue)=>setCity(nextValue), 1000);
-    delayedOnChange()
-  };
+
+  // const updateCity = debounce((text) => {
+  //   setCity(text);
+  //   getLocation()
+  // }, 1000)
+
+  const updateCity = (e) => setCity(e.target.value)
   
+
+
+//   const getfilteredLocation = (city, location) => {
+//     console.log('getfilteredLocation')
+  
+//     return location.filter((place) => place.LocalizedName.includes(city))
+//  }
  
-  
+//  const filteredLocation = getfilteredLocation(city, location)
 
   const cleanInput = () => {
     setCity("");
     setLocation([]);
     setCurrent([]);
     setForcast([]);
+    setFevorite(false);
   };
 
   return (
@@ -44,7 +53,7 @@ function Search() {
       <input
         className="input"
         placeholder="Enter City..."
-        onChange={(e) => updateCity(e)}
+        onChange={updateCity}
         value={city}
         onKeyPress={getLocation}
       ></input>
@@ -63,7 +72,7 @@ function Search() {
               </p>
             );
           })
-        : null}
+        : <p>Search City</p>}
     </div>
   );
 }

@@ -4,14 +4,17 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import CityProvider from "./Components/Context/CityContext";
+// import FavoritContextProvider from "./Components/Context/FavoriteContext";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <CityProvider>
+      {/* <FavoritContextProvider> */}
    
           <App />
     
+      {/* </FavoritContextProvider> */}
     </CityProvider>
   </React.StrictMode>,
   document.getElementById("root")
