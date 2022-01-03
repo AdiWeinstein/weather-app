@@ -15,19 +15,19 @@ export const LocationContext = createContext({
   locationKey: "",
   setLocationKey: () => [],
   onPickCity: () => {},
-  iconNum:()=> {},
-  toCelsius: ()=> {},
+  iconNum: () => {},
+  toCelsius: () => {},
   ToFahrenheit: () => {},
   favoriteCities: [],
   setFavoriteCities: () => {},
-  favorite:"",
-  setFavorite:()=>{},
-  filteredData:[],
-  setFilteredData: ()=> {},
-  favoritesData:[],
+  favorite: "",
+  setFavorite: () => {},
+  filteredData: [],
+  setFilteredData: () => {},
+  favoritesData: [],
   setFavoritesData: () => {},
-  getCurrentConditionByKey:()=>{},
-  allFavData: [], 
+  getCurrentConditionByKey: () => {},
+  allFavData: [],
   setAllFavData: () => {},
 });
 
@@ -37,18 +37,15 @@ export default function CityProvider({ children }) {
   const [locationKey, setLocationKey] = useState("215854");
   const [current, setCurrent] = useState([]);
   const [forcast, setForcast] = useState([]);
-  const [favoriteCities, setFavoriteCities] = useState(JSON.parse(localStorage.getItem('favoriteCities')) || []) 
+  const [favoriteCities, setFavoriteCities] = useState(
+    JSON.parse(localStorage.getItem("favoriteCities")) || []
+  );
   const [favorite, setFevorite] = useState(false);
-  const [favoritesData, setFavoritesData] = useState()
-  const [filteredData,setFilteredData] = useState(location);
-  const [allFavData, setAllFavData] = useState([])
- 
+  const [favoritesData, setFavoritesData] = useState();
+  const [filteredData, setFilteredData] = useState(location);
+  const [allFavData, setAllFavData] = useState([]);
 
   const apiKey = "VEJ6JVQGXbrkzk4PGSBLH4epf4qjA9VM";
-
-  
-
- 
 
   const getLocation = (e) => {
     // if (e.key === 'Enter' || city !== "" ){
@@ -59,26 +56,20 @@ export default function CityProvider({ children }) {
       .then((data) => {
         console.log("Autocomplete data", data);
         setLocation(data);
-       
       });
-   
   };
 
-
-
   //convert celsius to fahrenheit
-  const ToFahrenheit = celsius => {
+  const ToFahrenheit = (celsius) => {
     return Math.round(celsius * (9 / 5) + 32);
   };
 
   function toCelsius(fahrenheit) {
-    return Math.round((fahrenheit - 32) * 5 / 9);
+    return Math.round(((fahrenheit - 32) * 5) / 9);
   }
 
   //fetch current weather
-    const getCurrentCondition = (
-      
-    ) => {
+  const getCurrentCondition = () => {
     if (locationKey) {
       fetch(
         `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
@@ -86,29 +77,28 @@ export default function CityProvider({ children }) {
         .then((response) => response.json())
         .then((data) => {
           console.log("current Weather", data);
-          setCurrent(data.map((cityInfo) => {
-            return {
-              icon: cityInfo.WeatherIcon,
-              celsius: Math.round(cityInfo.Temperature.Metric.Value),
-              fahrenheit : Math.round(cityInfo.Temperature.Imperial.Value),
-              WeatherText: cityInfo.WeatherText,
-              today: cityInfo.LocalObservationDateTime,
-            }
-          }));
+          setCurrent(
+            data.map((cityInfo) => {
+              return {
+                icon: cityInfo.WeatherIcon,
+                celsius: Math.round(cityInfo.Temperature.Metric.Value),
+                fahrenheit: Math.round(cityInfo.Temperature.Imperial.Value),
+                WeatherText: cityInfo.WeatherText,
+                today: cityInfo.LocalObservationDateTime,
+              };
+            })
+          );
         });
     }
   };
 
-    
-        async function getCurrentConditionByKey(locationKey) {
-          const res = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`);
-          const data = await res.json();
-          return data;
-        }
- 
-    
-
-    
+  async function getCurrentConditionByKey(locationKey) {
+    const res = await fetch(
+      `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
+    );
+    const data = await res.json();
+    return data;
+  }
 
   // fetch  5 daily forecast
 
@@ -129,51 +119,48 @@ export default function CityProvider({ children }) {
         .then((response) => response.json())
         .then((data) => {
           console.log("forcast 5 days", data);
-          setForcast(data.DailyForecasts.map(df => {
-            console.log("dayOfWeek", dayOfWeek[new Date(df.Date).getDay()])
-            return{
-              fahrenheit:{
-                min: df.Temperature.Minimum.Value,
-                max: df.Temperature.Maximum.Value,
-              },
-              celsius:{
-                min: toCelsius(df.Temperature.Minimum.Value),
-                max: toCelsius(df.Temperature.Maximum.Value),
-              },
-              dayOfWeek: dayOfWeek[new Date(df.Date).getDay()],
-              icon: df.Day.Icon,
-              iconPhrase: df.Day.IconPhrase
-            }
-          }));
+          setForcast(
+            data.DailyForecasts.map((df) => {
+              console.log("dayOfWeek", dayOfWeek[new Date(df.Date).getDay()]);
+              return {
+                fahrenheit: {
+                  min: df.Temperature.Minimum.Value,
+                  max: df.Temperature.Maximum.Value,
+                },
+                celsius: {
+                  min: toCelsius(df.Temperature.Minimum.Value),
+                  max: toCelsius(df.Temperature.Maximum.Value),
+                },
+                dayOfWeek: dayOfWeek[new Date(df.Date).getDay()],
+                icon: df.Day.Icon,
+                iconPhrase: df.Day.IconPhrase,
+              };
+            })
+          );
         });
     }
   };
 
+  //pick city from the autucomplete list
+  const onPickCity = (city, i) => {
+    setCity(location[i].LocalizedName);
+    setLocationKey(location[i].Key);
+    setLocation([]);
 
-
-//pick city from the autucomplete list
-  const onPickCity = (city,i) => { 
-    setCity(location[i].LocalizedName)
-    setLocationKey(location[i].Key)
-    setLocation([])
-    
-    console.log('city', city)
-    console.log('locationKey', locationKey)
-   }
- 
+    console.log("city", city);
+    console.log("locationKey", locationKey);
+  };
 
   useEffect(() => {
-    if(locationKey){
-    getCurrentCondition(locationKey);
-    forcastFiveDays(locationKey);
+    if (locationKey) {
+      getCurrentCondition(locationKey);
+      forcastFiveDays(locationKey);
     }
-
   }, [locationKey]);
 
-  console.log("forcast", forcast)
+  console.log("forcast", forcast);
 
-
-// if icon num return one digit add "0" before
+  // if icon num return one digit add "0" before
   const iconNum = (num) => {
     const stringNum = num + "";
     const stringLen = stringNum.length;
@@ -185,13 +172,9 @@ export default function CityProvider({ children }) {
     }
   };
 
- 
-	useEffect(() => {
-		localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
-	}, [favoriteCities]);
-
-
- 
+  useEffect(() => {
+    localStorage.setItem("favoriteCities", JSON.stringify(favoriteCities));
+  }, [favoriteCities]);
 
   return (
     <LocationContext.Provider
@@ -215,14 +198,14 @@ export default function CityProvider({ children }) {
         ToFahrenheit,
         favoriteCities,
         setFavoriteCities,
-        favorite, 
+        favorite,
         setFevorite,
         filteredData,
         setFilteredData,
         favoritesData,
         setFavoritesData,
         getCurrentConditionByKey,
-        allFavData, 
+        allFavData,
         setAllFavData,
       }}
     >
