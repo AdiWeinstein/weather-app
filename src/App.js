@@ -13,14 +13,14 @@ import { LocationContext } from "../src/Components/Context/CityContext";
 
 
 function App() {
-  const { setFavoriteCity } = useContext(LocationContext);
+  const { setFavoriteCities } = useContext(LocationContext);
 
-  useEffect(() => {
-    const getFavoriteCity = JSON.parse(
-      localStorage.getItem('favoriteCity')
-    )
-    setFavoriteCity(getFavoriteCity)
-  }, [])
+  // useEffect(() => {
+  //   const getfavoriteCities = JSON.parse(
+  //     localStorage.getItem('favoriteCities')
+  //   )
+  //   setFavoriteCities(getfavoriteCities)
+  // }, [])
 
   return (
    

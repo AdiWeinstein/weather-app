@@ -18,26 +18,37 @@ export const LocationContext = createContext({
   iconNum:()=> {},
   toCelsius: ()=> {},
   ToFahrenheit: () => {},
-  favoriteCity: [],
-  setFavoriteCity: () => {},
+  favoriteCities: [],
+  setFavoriteCities: () => {},
   favorite:"",
-  setFavorite:()=>{}
+  setFavorite:()=>{},
+  filteredData:[],
+  setFilteredData: ()=> {},
+  favoritesData:[],
+  setFavoritesData: () => {},
+  getCurrentConditionByKey:()=>{},
+  allFavData: [], 
+  setAllFavData: () => {},
 });
 
 export default function CityProvider({ children }) {
   const [city, setCity] = useState("");
   const [location, setLocation] = useState([]);
-  const [locationKey, setLocationKey] = useState("");
+  const [locationKey, setLocationKey] = useState("215854");
   const [current, setCurrent] = useState([]);
   const [forcast, setForcast] = useState([]);
-  const [favoriteCity, setFavoriteCity] = useState([]) 
+  const [favoriteCities, setFavoriteCities] = useState(JSON.parse(localStorage.getItem('favoriteCities')) || []) 
   const [favorite, setFevorite] = useState(false);
+  const [favoritesData, setFavoritesData] = useState()
+  const [filteredData,setFilteredData] = useState(location);
+  const [allFavData, setAllFavData] = useState([])
+ 
 
-  const apiKey = "9A3uh7M99D8J2TBiCqntOffSBHAcrAAB";
+  const apiKey = "VEJ6JVQGXbrkzk4PGSBLH4epf4qjA9VM";
 
   
 
-  // http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=Z228tGGPbOm9anIkeDwTWHbpAkLWUYZV&q=32.045%2C%2034.77
+ 
 
   const getLocation = (e) => {
     // if (e.key === 'Enter' || city !== "" ){
@@ -48,9 +59,12 @@ export default function CityProvider({ children }) {
       .then((data) => {
         console.log("Autocomplete data", data);
         setLocation(data);
+       
       });
-   // }
+   
   };
+
+
 
   //convert celsius to fahrenheit
   const ToFahrenheit = celsius => {
@@ -62,7 +76,9 @@ export default function CityProvider({ children }) {
   }
 
   //fetch current weather
-    const getCurrentCondition = (locationKey) => {
+    const getCurrentCondition = (
+      
+    ) => {
     if (locationKey) {
       fetch(
         `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
@@ -83,6 +99,16 @@ export default function CityProvider({ children }) {
     }
   };
 
+    
+        async function getCurrentConditionByKey(locationKey) {
+          const res = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`);
+          const data = await res.json();
+          return data;
+        }
+ 
+    
+
+    
 
   // fetch  5 daily forecast
 
@@ -131,8 +157,8 @@ export default function CityProvider({ children }) {
     setLocationKey(location[i].Key)
     setLocation([])
     
-    // console.log('city', city)
-    // console.log('locationKey', locationKey)
+    console.log('city', city)
+    console.log('locationKey', locationKey)
    }
  
 
@@ -160,6 +186,12 @@ export default function CityProvider({ children }) {
   };
 
  
+	useEffect(() => {
+		localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
+	}, [favoriteCities]);
+
+
+ 
 
   return (
     <LocationContext.Provider
@@ -181,10 +213,17 @@ export default function CityProvider({ children }) {
         iconNum,
         toCelsius,
         ToFahrenheit,
-        favoriteCity,
-        setFavoriteCity,
+        favoriteCities,
+        setFavoriteCities,
         favorite, 
-        setFevorite
+        setFevorite,
+        filteredData,
+        setFilteredData,
+        favoritesData,
+        setFavoritesData,
+        getCurrentConditionByKey,
+        allFavData, 
+        setAllFavData,
       }}
     >
       {children}

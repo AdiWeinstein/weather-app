@@ -1,17 +1,23 @@
-import React, {  useContext } from "react";
+import React, {  useContext, useEffect } from "react";
 import { LocationContext } from "../Context/CityContext";
 
-function Current({unit, handleFavoriteCityData}) {
-  const { city, current, iconNum } =
+function Current({unit}) {
+  const { city, current, iconNum , setCurrent, getCurrentCondition, locationKey, location} =
     useContext(LocationContext);
-   
 
+    // useEffect(() => {
+    //   getCurrentCondition(locationKey)
+    //   .then(data => {
+    //     console.log("getCurrentCondition" , data)
+    //     setCurrent(data)
+    //   })
+    // }, [locationKey])
 
   return (
     <div className="cityTemp">
-      {current &&
+      {
         current.map((i, index) => (
-          <div className="cityTemp" key={index} onClick={()=>handleFavoriteCityData(i)}>
+          <div className="cityTemp" key={index}>
             <img
               className="icon"
               src={
@@ -25,7 +31,7 @@ function Current({unit, handleFavoriteCityData}) {
 
             <div className="city">
               <div className="cityInfo">
-                <h2 className="cityName">{city}</h2>
+                <h2 className="cityName">{city ? city : "Tel-Aviv"}</h2>
                 <h2 className="currentTemp">
                   {unit==="C" ? i.celsius : i.fahrenheit}°{unit}
                 </h2>

@@ -21,10 +21,12 @@ function DayTemp({ selectedUnit}) {
                 alt={day.iconPhrase} 
               />
               <h4>{day.iconPhrase}</h4>
+              <div>
               <span>
                 {(selectedUnit === "C") ? day.celsius.min : day.fahrenheit.min }° / {(selectedUnit === "C") ? day.celsius.max : day.fahrenheit.max }°
                 {selectedUnit}
               </span>
+              </div>
             </div>
           );
         })

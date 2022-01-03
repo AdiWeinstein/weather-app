@@ -1,4 +1,3 @@
-
 import "./HomeCard.css";
 import Switch from "@mui/material/Switch";
 
@@ -22,36 +21,61 @@ export default function HomeCard() {
     setCity,
     current,
     forcast,
-    favoriteCity,
-    setFavoriteCity,
+    favoriteCities,
+    setFavoriteCities,
     favorite,
-    setFevorite
+    setFevorite,
+    locationKey,
+    getCurrentConditionByKey
   } = useContext(LocationContext);
 
-//   const {favoriteCity, setFavoriteCity} = useContext(FavoriteContext)
+
 
   
   const [unit, setUnit] = useState("C");
   const [degree, setDegree] = useState(true);
 
+  // const addToFav = locationKey => setFavoriteCities([...favoriteCities , locationKey])
+  // const removeFav = locationKey => setFavoriteCities(favoriteCities.filter(key => key.locationKey !== locationKey))
 
-  const addToFavorite = () => {
+  // const toogleFav = locationKey => {
+  //   console.log("locationKey", locationKey)
+  //   const exists = favoriteCities.find(key => key.locationKey === locationKey)
+  //   if(exists){
+  //     removeFav(locationKey)
+  //   } else {
+  //     addToFav(locationKey)
+  //   }
+
+  // }
+
+  
+
+  const addToFavorite = (locationKey) => {
+    // mark the heart icon
     if (favorite) {
       setFevorite(false);
     } else if (!favorite) {
       setFevorite(true);
-    
-    const newFavoriteList = [...favoriteCity, {city,current}]
-    setFavoriteCity(newFavoriteList)
-    setCity(city)
-    setFavoriteToLS(newFavoriteList)
-    }
-    console.log('favoriteCity', favoriteCity)
-  }
+      console.log('favorite',favorite)
 
-  const setFavoriteToLS = (favoriteCity) => {
-    localStorage.setItem('favoriteCity', JSON.stringify(favoriteCity))
+    //set data to favorite page
+    const addFav = locationKey => setFavoriteCities([...favoriteCities, {city: city, Key: locationKey}])
+    const removeFav = locationKey => setFavoriteCities(favoriteCities.filter(key => key.Key !== locationKey))
+    const exists = favoriteCities.find((key) => key.Key === locationKey)
+    if(exists){
+      return removeFav(locationKey)
+    }else{
+      return addFav(locationKey)
+    }
+    }
+   
   }
+  console.log('favoriteCities', favoriteCities)
+
+  // useEffect(() => {
+	// 	localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
+	// }, [favoriteCities]);
 
  
   const convertCelsiusToFahrenheit = (e) => {
@@ -74,7 +98,7 @@ export default function HomeCard() {
         {/* ...top card = Current... */}
       
         {current && <Current unit={unit} />}
-        <div className="favoriteBtn" onClick={() => addToFavorite(current)}>
+        <div className="favoriteBtn" onClick={() => addToFavorite(locationKey)}>
           {favorite ? (
             <MdOutlineFavorite size="1.5em" />
           ) : (

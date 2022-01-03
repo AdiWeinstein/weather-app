@@ -39,3 +39,11 @@ ul {
     list-style: none;
     display: flex;
 }
+@media (max-width: 500px){
+.Logo{
+    font-size: 0.8rem;
+}
+.list{
+    font-size: 0.8rem;
+}
+}

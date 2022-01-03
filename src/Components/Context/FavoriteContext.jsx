@@ -2,18 +2,18 @@
 // import { FavoriteReducer } from "../Favorits/favoriteReducer";
 
 // export const FavoriteContext = createContext({
-//     favoriteCity: [],
-//     setFavoriteCity: () => {}
+//     favoriteCities: [],
+//     setFavoriteCities: () => {}
 // });
 
 // const FavoritContextProvider = ({ children }) => {
-    // const [favoriteCity, dispatch] = useReducer(FavoriteReducer, [])
+    // const [favoriteCities, dispatch] = useReducer(FavoriteReducer, [])
 
-//     const [favoriteCity, setFavoriteCity] = useState(["tel aviv"])
+//     const [favoriteCities, setFavoriteCities] = useState(["tel aviv"])
 
 
 //     return(
-//         <FavoriteContext.Provider value={favoriteCity, setFavoriteCity}>
+//         <FavoriteContext.Provider value={favoriteCities, setFavoriteCities}>
 //             {children}
 //         </FavoriteContext.Provider>
 //     )

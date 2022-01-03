@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Search.css";
 // import { debounce } from 'lodash';
 
@@ -17,10 +17,15 @@ function Search() {
     setCurrent,
     setForcast,
     setFevorite,
+    filteredData,
+    setFilteredData
   } = useContext(LocationContext);
 
- 
 
+  useEffect(() => {
+    const timer = setTimeout(() => getLocation(), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // const updateCity = debounce((text) => {
   //   setCity(text);
@@ -28,16 +33,6 @@ function Search() {
   // }, 1000)
 
   const updateCity = (e) => setCity(e.target.value)
-  
-
-
-//   const getfilteredLocation = (city, location) => {
-//     console.log('getfilteredLocation')
-  
-//     return location.filter((place) => place.LocalizedName.includes(city))
-//  }
- 
-//  const filteredLocation = getfilteredLocation(city, location)
 
   const cleanInput = () => {
     setCity("");
@@ -52,7 +47,7 @@ function Search() {
       <BiSearchAlt />
       <input
         className="input"
-        placeholder="Enter City..."
+        placeholder="Search City..."
         onChange={updateCity}
         value={city}
         onKeyPress={getLocation}
