@@ -1,6 +1,6 @@
 import React from "react";
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 
@@ -15,14 +15,14 @@ function Header() {
         <nav>
           <ul>
             <li>
-              <Link className="list" to="/">
+              <NavLink activeClassName="active-link" exact to="/">
                 HOME
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className="list" to="/favorite">
+              <NavLink activeClassName="active-link" to="/favorite">
                 FAVORITE
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>

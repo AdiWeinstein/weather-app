@@ -6,37 +6,32 @@ import { BiX } from "react-icons/bi";
 function FavoriteCard() {
   const {
     favoriteCities,
-    city,
     iconNum,
     setFavoriteCities,
-    getCurrentCondition,
-    current,
-    locationKey,
     favoritesData,
     setFavoritesData,
     getCurrentConditionByKey,
-    allFavData,
-    setAllFavData,
   } = useContext(LocationContext);
 
-  const removeFav = (key) => {
-    console.log("key", key);
-    const newFavoriteList = favoriteCities.filter((fav) => fav.Key !== key);
-    console.log("newFavoriteList", newFavoriteList);
-    setFavoriteCities(newFavoriteList);
-  };
+
+  const removeFav = (locationKey) =>{
+    setFavoriteCities(
+      favoriteCities.filter((key) => key.Key !== locationKey)
+    );
+  }
+ 
+
   useEffect(() => {
     const promises = favoriteCities.map((favKey) => {
-      // const existsKey = favoriteCities.find(fav => fav.Key === fav);
-      // if (existsKey) {
-      // return existsKey;
-      // }else {
-      return getCurrentConditionByKey(favKey.Key);
-      // }
+      const existsKey = favoriteCities.find((fav) => fav.Key === fav);
+      if (existsKey) {
+        return existsKey;
+      } else {
+        return getCurrentConditionByKey(favKey.Key);
+      }
     });
-console.log(promises)
+    console.log(promises);
     Promise.all(promises).then((response) => {
-      
       const result = response.map((res, i) => {
         return {
           city: favoriteCities[i].city,
@@ -45,7 +40,7 @@ console.log(promises)
           celsius: Math.round(res[0].Temperature.Metric.Value),
           weatherIcon: iconNum(res[0].WeatherIcon),
         };
-        console.log('result', result);
+        console.log("result", result);
       });
 
       setFavoritesData(result);
@@ -62,9 +57,9 @@ console.log(promises)
           <div className="city-card" key={index}>
             <BiX
               className="remove-icon"
-              onClick={() => removeFav(favoriteCities[0].Key)}
+              onClick={() => removeFav(favoriteCities[index].Key)}
             />
-            
+
             <h2>{fav.city}</h2>
 
             <img

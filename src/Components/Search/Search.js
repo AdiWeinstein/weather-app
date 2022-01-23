@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import "./Search.css";
-// import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 import { LocationContext } from "../Context/CityContext";
 import { BiSearchAlt, BiX } from "react-icons/bi";
-
 
 function Search() {
   const {
@@ -17,22 +16,18 @@ function Search() {
     setCurrent,
     setForcast,
     setFevorite,
-    filteredData,
-    setFilteredData
   } = useContext(LocationContext);
 
+  const updateCity = (e) => {
+    console.log('object', e)
+    setCity(e.target.value)
+    // getLocation()
+  };
+  const debounceOnChange = useCallback(debounce(updateCity,500), []) ;
 
   useEffect(() => {
-    const timer = setTimeout(() => getLocation(), 5000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // const updateCity = debounce((text) => {
-  //   setCity(text);
-  //   getLocation()
-  // }, 1000)
-
-  const updateCity = (e) => setCity(e.target.value)
+    getLocation(city)
+  }, [city]);
 
   const cleanInput = () => {
     setCity("");
@@ -46,28 +41,34 @@ function Search() {
     <div className="search">
       <BiSearchAlt />
       <input
+        type="text"
         className="input"
         placeholder="Search City..."
-        onChange={updateCity}
-        value={city}
-        onKeyPress={getLocation}
+        // onChange={updateCity}
+        onChange={debounceOnChange}
+        // value={city}                   
+        // name="city"
+        // onKeyPress={handler}
       ></input>
 
       {/* delete icon */}
       <BiX onClick={cleanInput} />
-      {location
-        ? location.map((city, i) => {
-            return (
-              <p
-                className="citySearch"
-                key={i}
-                onClick={() => onPickCity(city, i)}
-              >
-                {city.LocalizedName}
-              </p>
-            );
-          })
-        : <p>Search City</p>}
+      {location ? (
+        location.map((city, i) => {
+          return (
+            <p
+              className="citySearch"
+              key={i}
+              onClick={() => onPickCity(city, i)}
+        
+            >
+              {city.LocalizedName}
+            </p>
+          );
+        })
+      ) : (
+        <p>Search City</p>
+      )}
     </div>
   );
 }

@@ -19,7 +19,7 @@
     white-space: nowrap;
 }
 
-.list {
+a{
     margin: 7px;
     font-size: 1.1rem;
     line-height: 100%;
@@ -31,7 +31,10 @@
     text-decoration: none;
 
 }
-.list:hover {
+a:hover {
+    border-bottom: 1px solid black;
+}
+.active-link{
     border-bottom: 1px solid black;
 }
 
@@ -43,7 +46,7 @@ ul {
 .Logo{
     font-size: 0.8rem;
 }
-.list{
+.a{
     font-size: 0.8rem;
 }
 }

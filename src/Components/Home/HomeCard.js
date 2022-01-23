@@ -1,19 +1,13 @@
 import "./HomeCard.css";
 import Switch from "@mui/material/Switch";
 
-
-import React, {
-  useState,
-  useContext,
-  useEffect
-} from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { MdOutlineFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
 import { LocationContext } from "../Context/CityContext";
 // import { FavoriteContext } from "../Context/FavoriteContext"
 import DayTemp from "./DayTemp.js";
 import Current from "./Current";
-
 
 export default function HomeCard() {
   const {
@@ -26,58 +20,53 @@ export default function HomeCard() {
     favorite,
     setFevorite,
     locationKey,
-    getCurrentConditionByKey
+    getCurrentConditionByKey,
   } = useContext(LocationContext);
 
-
-
-  
   const [unit, setUnit] = useState("C");
   const [degree, setDegree] = useState(true);
 
-  // const addToFav = locationKey => setFavoriteCities([...favoriteCities , locationKey])
-  // const removeFav = locationKey => setFavoriteCities(favoriteCities.filter(key => key.locationKey !== locationKey))
-
-  // const toogleFav = locationKey => {
-  //   console.log("locationKey", locationKey)
-  //   const exists = favoriteCities.find(key => key.locationKey === locationKey)
-  //   if(exists){
-  //     removeFav(locationKey)
-  //   } else {
-  //     addToFav(locationKey)
-  //   }
-
-  // }
-
-  
-
-  const addToFavorite = (locationKey) => {
+  // const addToFavorite = (locationKey) => {
     // mark the heart icon
-    if (favorite) {
-      setFevorite(false);
-    } else if (!favorite) {
-      setFevorite(true);
-      console.log('favorite',favorite)
+    // if (favorite) {
+    //   setFevorite(false);
+    // } else if (!favorite) {
+    //   setFevorite(true);
+    //   console.log("favorite", favorite);
 
-    //set data to favorite page
-    const addFav = locationKey => setFavoriteCities([...favoriteCities, {city: city, Key: locationKey}])
-    const removeFav = locationKey => setFavoriteCities(favoriteCities.filter(key => key.Key !== locationKey))
-    const exists = favoriteCities.find((key) => key.Key === locationKey)
-    if(exists){
-      return removeFav(locationKey)
-    }else{
-      return addFav(locationKey)
-    }
-    }
-   
-  }
-  console.log('favoriteCities', favoriteCities)
+      //set data to favorite page
+      const addFav = (locationKey) => {
+        setFevorite(true);
+        setFavoriteCities([
+          ...favoriteCities,
+          { city: city, Key: locationKey },
+        ]);
+      }
+       
+     
+        const removeFav = (locationKey) =>{
+          setFevorite(false);
+          setFavoriteCities(
+            favoriteCities.filter((key) => key.Key !== locationKey)
+          );
+        }
+       
 
-  // useEffect(() => {
-	// 	localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
-	// }, [favoriteCities]);
+        const addToFavorite = locationKey =>{
+          const exists = favoriteCities.find((key) => key.Key === locationKey);
+          if (exists) {
+            return removeFav(locationKey);
+            
+          } else {
+            return addFav(locationKey);
+             
+          }
+        }
+  
+    // }
+  // };
+  console.log("favoriteCities", favoriteCities);
 
- 
   const convertCelsiusToFahrenheit = (e) => {
     setDegree(!degree);
     if (degree) {
@@ -94,9 +83,8 @@ export default function HomeCard() {
   return (
     <div className="Card">
       <div className="topLine">
-        
         {/* ...top card = Current... */}
-      
+
         {current && <Current unit={unit} />}
         <div className="favoriteBtn" onClick={() => addToFavorite(locationKey)}>
           {favorite ? (
@@ -114,6 +102,7 @@ export default function HomeCard() {
 
       <div>
         °C
+        {/* Switch is mui component */}
         <Switch
           name="C"
           inputProps={{ "aria-label": "degree" }}

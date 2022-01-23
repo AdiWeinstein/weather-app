@@ -45,18 +45,25 @@ export default function CityProvider({ children }) {
   const [filteredData, setFilteredData] = useState(location);
   const [allFavData, setAllFavData] = useState([]);
 
-  const apiKey = "VEJ6JVQGXbrkzk4PGSBLH4epf4qjA9VM";
+  const BASE_URL = "http://dataservice.accuweather.com";
+  const API_KEY = "zDR82pJxN06u5M40ZphVhXBNh400xWbx";
 
-  const getLocation = (e) => {
-    // if (e.key === 'Enter' || city !== "" ){
+  useEffect(()=>{
+    console.log('city2', city)
+
+  },[city])
+
+  //autocomplete search
+  const getLocation = (city) => {
     fetch(
-      `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`
+      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}`
     )
       .then((response) => response.json())
       .then((data) => {
         console.log("Autocomplete data", data);
         setLocation(data);
       });
+    console.log(location, "location");
   };
 
   //convert celsius to fahrenheit
@@ -71,9 +78,7 @@ export default function CityProvider({ children }) {
   //fetch current weather
   const getCurrentCondition = () => {
     if (locationKey) {
-      fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
-      )
+      fetch(`${BASE_URL}/currentconditions/v1/${locationKey}?apikey=${API_KEY}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("current Weather", data);
@@ -94,7 +99,7 @@ export default function CityProvider({ children }) {
 
   async function getCurrentConditionByKey(locationKey) {
     const res = await fetch(
-      `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`
+      `${BASE_URL}/currentconditions/v1/${locationKey}?apikey=${API_KEY}`
     );
     const data = await res.json();
     return data;
@@ -114,7 +119,7 @@ export default function CityProvider({ children }) {
     ];
     if (current) {
       fetch(
-        `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}`
+        `${BASE_URL}/forecasts/v1/daily/5day/${locationKey}?apikey=${API_KEY}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -143,13 +148,15 @@ export default function CityProvider({ children }) {
 
   //pick city from the autucomplete list
   const onPickCity = (city, i) => {
+    console.log("city",city)
     setCity(location[i].LocalizedName);
     setLocationKey(location[i].Key);
     setLocation([]);
-
-    console.log("city", city);
-    console.log("locationKey", locationKey);
   };
+  
+  console.log("city", city);
+  console.log("locationKey", locationKey);
+  // console.log("location", location);
 
   useEffect(() => {
     if (locationKey) {
