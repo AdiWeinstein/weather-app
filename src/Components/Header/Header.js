@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./header.css";
 import { Link, NavLink } from "react-router-dom";
 
-
-
 function Header() {
+  
+ 
+
   return (
     <header className="Header">
       <div>
@@ -15,7 +16,7 @@ function Header() {
         <nav>
           <ul>
             <li>
-              <NavLink activeClassName="active-link" exact to="/">
+              <NavLink activeClassName="active-link" exact to="/" >
                 HOME
               </NavLink>
             </li>

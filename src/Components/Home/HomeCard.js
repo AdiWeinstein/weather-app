@@ -5,14 +5,12 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { MdOutlineFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
 import { LocationContext } from "../Context/CityContext";
-// import { FavoriteContext } from "../Context/FavoriteContext"
 import DayTemp from "./DayTemp.js";
 import Current from "./Current";
 
 export default function HomeCard() {
   const {
     city,
-    setCity,
     current,
     forcast,
     favoriteCities,
@@ -20,7 +18,6 @@ export default function HomeCard() {
     favorite,
     setFevorite,
     locationKey,
-    getCurrentConditionByKey,
   } = useContext(LocationContext);
 
   const [unit, setUnit] = useState("C");
@@ -65,7 +62,7 @@ export default function HomeCard() {
   
     // }
   // };
-  console.log("favoriteCities", favoriteCities);
+  // console.log("favoriteCities", favoriteCities);
 
   const convertCelsiusToFahrenheit = (e) => {
     setDegree(!degree);
@@ -76,13 +73,14 @@ export default function HomeCard() {
     }
   };
 
-  console.log("forcast", forcast);
-  console.log("current", current);
-  console.log("h2", city);
+  // console.log("forcast", forcast);
+  // console.log("current", current);
+  // console.log("h2", city);
 
   return (
     <div className="Card">
       <div className="topLine">
+
         {/* ...top card = Current... */}
 
         {current && <Current unit={unit} />}
@@ -106,7 +104,6 @@ export default function HomeCard() {
         <Switch
           name="C"
           inputProps={{ "aria-label": "degree" }}
-          // checked={degree}
           onChange={convertCelsiusToFahrenheit}
         />
         °F

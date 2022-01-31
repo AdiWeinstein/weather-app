@@ -7,68 +7,74 @@ import { BiSearchAlt, BiX } from "react-icons/bi";
 
 function Search() {
   const {
-    location,
-    setLocation,
+    inputSearch,
+    setInputSearch,
+    locations,
+    setLocations,
+    setLocationKey,
     city,
     setCity,
     getLocation,
-    onPickCity,
     setCurrent,
     setForcast,
     setFevorite,
   } = useContext(LocationContext);
 
   const updateCity = (e) => {
-    console.log('object', e)
-    setCity(e.target.value)
-    // getLocation()
+    console.log("1object", e);
+    setInputSearch(e.target.value);
   };
-  const debounceOnChange = useCallback(debounce(updateCity,500), []) ;
+  const debounceOnChange = useCallback(debounce(updateCity, 500), []);
 
   useEffect(() => {
-    getLocation(city)
-  }, [city]);
+      getLocation(inputSearch);
+  }, [inputSearch]);
 
-  const cleanInput = () => {
-    setCity("");
-    setLocation([]);
-    setCurrent([]);
-    setForcast([]);
+  const cleanInputValue = () => {
+    // setInputSearch(undefined);
+    setCity("")
+    console.log("<<<city", city);
+    console.log("<<<inputSearch",inputSearch );
     setFevorite(false);
   };
+
+  //pick city from the autucomplete list
+  const onPickCity = (city, i) => {
+    setCity(locations[i].LocalizedName);
+    setLocationKey(locations[i].Key);
+    setLocations([])
+    setInputSearch(undefined)
+    console.log("city",city );
+    console.log("inputSearch",inputSearch );
+    
+  };
+
+  const locationsList = locations.map((location, i) => {
+    return (
+      <li className="citySearch" key={i} onClick={() => onPickCity(city, i)}>
+        {location.LocalizedName}
+      </li>
+    );
+  });
 
   return (
     <div className="search">
       <BiSearchAlt />
+      
       <input
         type="text"
         className="input"
         placeholder="Search City..."
-        // onChange={updateCity}
         onChange={debounceOnChange}
-        // value={city}                   
-        // name="city"
-        // onKeyPress={handler}
+        value={city ? city : undefined}
       ></input>
 
+     city: {city}
+     inputSearch: {inputSearch}
+
       {/* delete icon */}
-      <BiX onClick={cleanInput} />
-      {location ? (
-        location.map((city, i) => {
-          return (
-            <p
-              className="citySearch"
-              key={i}
-              onClick={() => onPickCity(city, i)}
-        
-            >
-              {city.LocalizedName}
-            </p>
-          );
-        })
-      ) : (
-        <p>Search City</p>
-      )}
+      <BiX onClick={()=>cleanInputValue} className="x-btn" />
+      <ul className="loctions-list">{locationsList}</ul>
     </div>
   );
 }

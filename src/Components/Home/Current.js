@@ -2,7 +2,7 @@ import React, {  useContext, useEffect } from "react";
 import { LocationContext } from "../Context/CityContext";
 
 function Current({unit}) {
-  const { city, current, iconNum , setCurrent, getCurrentCondition, locationKey, location} =
+  const { city, current, iconNum} =
     useContext(LocationContext);
 
     // useEffect(() => {

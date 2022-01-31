@@ -30,7 +30,7 @@ function FavoriteCard() {
         return getCurrentConditionByKey(favKey.Key);
       }
     });
-    console.log(promises);
+    // console.log(promises);
     Promise.all(promises).then((response) => {
       const result = response.map((res, i) => {
         return {
@@ -40,15 +40,14 @@ function FavoriteCard() {
           celsius: Math.round(res[0].Temperature.Metric.Value),
           weatherIcon: iconNum(res[0].WeatherIcon),
         };
-        console.log("result", result);
       });
 
       setFavoritesData(result);
     });
   }, [favoriteCities]);
 
-  console.log("favoritesData", favoritesData);
-  console.log("favoriteCities", favoriteCities);
+  // console.log("favoritesData", favoritesData);
+  // console.log("favoriteCities", favoriteCities);
 
   return (
     <div className="favorite-card">

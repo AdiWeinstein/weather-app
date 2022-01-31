@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 
 export const LocationContext = createContext({
-  locatin: [],
-  setLocation: () => [],
+  inputSearch:"",
+  setInputSearch: () => [],
+  locations: [],
+  setLocations: () => [],
   city: "",
   setCity: () => [],
   getLocation: () => [],
@@ -14,7 +16,7 @@ export const LocationContext = createContext({
   forcastFiveDays: () => [],
   locationKey: "",
   setLocationKey: () => [],
-  onPickCity: () => {},
+  // onPickCity: () => {},
   iconNum: () => {},
   toCelsius: () => {},
   ToFahrenheit: () => {},
@@ -32,8 +34,9 @@ export const LocationContext = createContext({
 });
 
 export default function CityProvider({ children }) {
+  const [inputSearch, setInputSearch] = useState("")
   const [city, setCity] = useState("");
-  const [location, setLocation] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [locationKey, setLocationKey] = useState("215854");
   const [current, setCurrent] = useState([]);
   const [forcast, setForcast] = useState([]);
@@ -42,28 +45,25 @@ export default function CityProvider({ children }) {
   );
   const [favorite, setFevorite] = useState(false);
   const [favoritesData, setFavoritesData] = useState();
-  const [filteredData, setFilteredData] = useState(location);
+  const [filteredData, setFilteredData] = useState(locations);
   const [allFavData, setAllFavData] = useState([]);
 
   const BASE_URL = "http://dataservice.accuweather.com";
-  const API_KEY = "zDR82pJxN06u5M40ZphVhXBNh400xWbx";
+  const API_KEY = "NmGQIYMQhldKeOAF7Zaa3HC1NE0PY2Kl";
 
-  useEffect(()=>{
-    console.log('city2', city)
-
-  },[city])
+ 
 
   //autocomplete search
   const getLocation = (city) => {
     fetch(
-      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}`
+      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${inputSearch}`
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Autocomplete data", data);
-        setLocation(data);
+        // console.log("Autocomplete data", data);
+        setLocations(data);
       });
-    console.log(location, "location");
+    // console.log(locations, "location");
   };
 
   //convert celsius to fahrenheit
@@ -81,7 +81,7 @@ export default function CityProvider({ children }) {
       fetch(`${BASE_URL}/currentconditions/v1/${locationKey}?apikey=${API_KEY}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log("current Weather", data);
+          // console.log("current Weather", data);
           setCurrent(
             data.map((cityInfo) => {
               return {
@@ -123,10 +123,10 @@ export default function CityProvider({ children }) {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("forcast 5 days", data);
+          // console.log("forcast 5 days", data);
           setForcast(
             data.DailyForecasts.map((df) => {
-              console.log("dayOfWeek", dayOfWeek[new Date(df.Date).getDay()]);
+              // console.log("dayOfWeek", dayOfWeek[new Date(df.Date).getDay()]);
               return {
                 fahrenheit: {
                   min: df.Temperature.Minimum.Value,
@@ -146,16 +146,24 @@ export default function CityProvider({ children }) {
     }
   };
 
+ 
+
   //pick city from the autucomplete list
-  const onPickCity = (city, i) => {
-    console.log("city",city)
-    setCity(location[i].LocalizedName);
-    setLocationKey(location[i].Key);
-    setLocation([]);
-  };
+  // const onPickCity = (city, i) => {
+  //   console.log("city search",city)
+  //   console.log("------location search",location)
+  //   setCity(location[i].LocalizedName);
+  //   setLocationKey(location[i].Key);
+  //   setLocation([]);
+  //   cleanInput()
+
+    
+  //   console.log(">>>>location search 2",location)
+
+  // };
   
-  console.log("city", city);
-  console.log("locationKey", locationKey);
+  // console.log("city", city);
+  // console.log("locationKey", locationKey);
   // console.log("location", location);
 
   useEffect(() => {
@@ -165,7 +173,7 @@ export default function CityProvider({ children }) {
     }
   }, [locationKey]);
 
-  console.log("forcast", forcast);
+  // console.log("forcast", forcast);
 
   // if icon num return one digit add "0" before
   const iconNum = (num) => {
@@ -186,10 +194,12 @@ export default function CityProvider({ children }) {
   return (
     <LocationContext.Provider
       value={{
+        inputSearch,
+        setInputSearch,
         city,
-        location,
+        locations,
         setCity,
-        setLocation,
+        setLocations,
         getLocation,
         current,
         setCurrent,
@@ -199,7 +209,7 @@ export default function CityProvider({ children }) {
         forcastFiveDays,
         locationKey,
         setLocationKey,
-        onPickCity,
+        // onPickCity,
         iconNum,
         toCelsius,
         ToFahrenheit,
