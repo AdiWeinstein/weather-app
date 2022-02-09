@@ -49,22 +49,24 @@ export default function CityProvider({ children }) {
   const [allFavData, setAllFavData] = useState([]);
 
   const BASE_URL = "http://dataservice.accuweather.com";
-  const API_KEY = "NmGQIYMQhldKeOAF7Zaa3HC1NE0PY2Kl";
+  const API_KEY = "GtTG5XWzGK1xPcbGEeFSEB0TZa31Gw8a";
 
  
 
   //autocomplete search
   const getLocation = (city) => {
-    fetch(
-      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${inputSearch}`
+   fetch(
+      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}`
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Autocomplete data", data);
+        console.log("Autocomplete data", data);
         setLocations(data);
       });
     // console.log(locations, "location");
   };
+
+  
 
   //convert celsius to fahrenheit
   const ToFahrenheit = (celsius) => {

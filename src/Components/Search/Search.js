@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import "./Search.css";
 import { debounce } from "lodash";
 
@@ -20,34 +20,52 @@ function Search() {
     setFevorite,
   } = useContext(LocationContext);
 
-  const updateCity = (e) => {
-    console.log("1object", e);
-    setInputSearch(e.target.value);
-  };
-  const debounceOnChange = useCallback(debounce(updateCity, 500), []);
+  const [isCity, setIsCity]= useState(false)
 
-  useEffect(() => {
-      getLocation(inputSearch);
-  }, [inputSearch]);
+  // const updateCity = (e) => {
+  //   console.log("1object", e);
+  //   setInputSearch(e.target.value);
+  // };
+  // const debounceOnChange = useCallback(debounce(updateCity, 500), []);
+
+  // useEffect(() => {
+  //     getLocation(inputSearch);
+  // }, [inputSearch]);
+
+
+  const debouncedSave = useCallback(
+    debounce((newValue) => getLocation(newValue), 1000),
+    []
+);
+
+const updateValue = (newValue) => {
+    setInputSearch(newValue);
+    debouncedSave(newValue);
+};
 
   const cleanInputValue = () => {
-    // setInputSearch(undefined);
-    setCity("")
-    console.log("<<<city", city);
-    console.log("<<<inputSearch",inputSearch );
-    setFevorite(false);
-  };
+   
+      setInputSearch("");
+      setCity("")
+      console.log("<<<city", city);
+      console.log("<<<inputSearch",inputSearch );
+      setFevorite(false);
+  
+    }
+  
+   
+ 
 
   //pick city from the autucomplete list
   const onPickCity = (city, i) => {
     setCity(locations[i].LocalizedName);
     setLocationKey(locations[i].Key);
     setLocations([])
-    setInputSearch(undefined)
-    console.log("city",city );
-    console.log("inputSearch",inputSearch );
-    
+    // setInputSearch("")
+
   };
+
+ 
 
   const locationsList = locations.map((location, i) => {
     return (
@@ -65,16 +83,17 @@ function Search() {
         type="text"
         className="input"
         placeholder="Search City..."
-        onChange={debounceOnChange}
-        value={city ? city : undefined}
+        // onChange={debounceOnChange}
+        // value={city ? city : ""}
+        value={inputSearch}
+        onChange={(e) => updateValue(e.target.value)}
+       
       ></input>
 
-     city: {city}
-     inputSearch: {inputSearch}
-
       {/* delete icon */}
-      <BiX onClick={()=>cleanInputValue} className="x-btn" />
-      <ul className="loctions-list">{locationsList}</ul>
+      <BiX onClick={cleanInputValue} className="x-btn" />
+
+      <ul className="loctions-list">{locations.length>0 && locationsList  }</ul>
     </div>
   );
 }
