@@ -1,6 +1,7 @@
 import "./HomeCard.css";
 import Switch from "@mui/material/Switch";
 
+
 import React, { useState, useContext, useEffect } from "react";
 
 import { MdOutlineFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
@@ -18,10 +19,26 @@ export default function HomeCard() {
     favorite,
     setFevorite,
     locationKey,
+    getCurrentCondition,
+    forcastFiveDays
+
   } = useContext(LocationContext);
+
+
 
   const [unit, setUnit] = useState("C");
   const [degree, setDegree] = useState(true);
+  
+  // const [isPending, setIsending] = useState(true)
+  // const [error, setError] = useState(null)
+
+  // useEffect(() => {
+  //   if (locationKey || "215854") {
+  //     getCurrentCondition(locationKey);
+  //     forcastFiveDays(locationKey);
+  //     setIsending(false)
+  //   }
+  // }, [locationKey]);
 
   // const addToFavorite = (locationKey) => {
     // mark the heart icon
@@ -79,7 +96,9 @@ export default function HomeCard() {
 
   return (
     <div className="Card">
+      {/* {isPending && <div>Loading...</div>} */}
       <div className="topLine">
+       
 
         {/* ...top card = Current... */}
 

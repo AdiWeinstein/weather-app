@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
+import { callAPI, BASE_URL, API_KEY } from "../api/Service";
+
 
 export const LocationContext = createContext({
   inputSearch:"",
@@ -48,17 +50,17 @@ export default function CityProvider({ children }) {
   const [filteredData, setFilteredData] = useState(locations);
   const [allFavData, setAllFavData] = useState([]);
 
-  const BASE_URL = "http://dataservice.accuweather.com";
-  const API_KEY = "GtTG5XWzGK1xPcbGEeFSEB0TZa31Gw8a";
+  // const BASE_URL = "http://dataservice.accuweather.com";
+  // const API_KEY = "No8wECVJQW4PQOAnNHTHYdmDrtPOZWHt";
 
- 
+
 
   //autocomplete search
   const getLocation = (city) => {
-   fetch(
-      `${BASE_URL}/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}`
-    )
-      .then((response) => response.json())
+
+  const url = 'locations/v1/cities/autocomplete';
+  console.log(city,"city");
+  callAPI(url, city)
       .then((data) => {
         console.log("Autocomplete data", data);
         setLocations(data);
@@ -80,8 +82,8 @@ export default function CityProvider({ children }) {
   //fetch current weather
   const getCurrentCondition = () => {
     if (locationKey) {
-      fetch(`${BASE_URL}/currentconditions/v1/${locationKey}?apikey=${API_KEY}`)
-        .then((response) => response.json())
+    const url = `currentconditions/v1/${locationKey}`;
+    callAPI(url, undefined)
         .then((data) => {
           // console.log("current Weather", data);
           setCurrent(
@@ -120,10 +122,8 @@ export default function CityProvider({ children }) {
       "Saturday",
     ];
     if (current) {
-      fetch(
-        `${BASE_URL}/forecasts/v1/daily/5day/${locationKey}?apikey=${API_KEY}`
-      )
-        .then((response) => response.json())
+      const url = `forecasts/v1/daily/5day/${locationKey}`;
+    callAPI(url)
         .then((data) => {
           // console.log("forcast 5 days", data);
           setForcast(

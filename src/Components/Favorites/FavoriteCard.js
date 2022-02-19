@@ -16,8 +16,9 @@ function FavoriteCard() {
 
   const removeFav = (locationKey) =>{
     setFavoriteCities(
-      favoriteCities.filter((key) => key.Key !== locationKey)
+      favoriteCities.filter((fav) => fav.Key !== locationKey)
     );
+    
   }
  
 
@@ -25,11 +26,21 @@ function FavoriteCard() {
     const promises = favoriteCities.map((favKey) => {
       const existsKey = favoriteCities.find((fav) => fav.Key === fav);
       if (existsKey) {
-        return existsKey;
-      } else {
+        return existsKey;  
+      } 
         return getCurrentConditionByKey(favKey.Key);
-      }
     });
+
+//     const existKey = favKey.Key
+//     console.log(existKey);
+//     if (favoriteCities.some(fav => fav.Key === existKey)) {
+//         return existKey
+//     } else {
+//         return getCurrentConditionByKey(favKey.Key)
+//     }
+// })
+
+
     // console.log(promises);
     Promise.all(promises).then((response) => {
       const result = response.map((res, i) => {
@@ -44,7 +55,8 @@ function FavoriteCard() {
 
       setFavoritesData(result);
     });
-  }, [favoriteCities]);
+    
+  }, []);
 
   // console.log("favoritesData", favoritesData);
   // console.log("favoriteCities", favoriteCities);
