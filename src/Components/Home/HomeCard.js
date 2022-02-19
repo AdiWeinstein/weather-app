@@ -90,10 +90,6 @@ export default function HomeCard() {
     }
   };
 
-  // console.log("forcast", forcast);
-  // console.log("current", current);
-  // console.log("h2", city);
-
   return (
     <div className="Card">
       {/* {isPending && <div>Loading...</div>} */}

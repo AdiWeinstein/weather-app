@@ -15,6 +15,7 @@ function FavoriteCard() {
 
 
   const removeFav = (locationKey) =>{
+    console.log('locationKey remove' , locationKey)
     setFavoriteCities(
       favoriteCities.filter((fav) => fav.Key !== locationKey)
     );
@@ -23,25 +24,15 @@ function FavoriteCard() {
  
 
   useEffect(() => {
-    const promises = favoriteCities.map((favKey) => {
-      const existsKey = favoriteCities.find((fav) => fav.Key === fav);
+    const promises = favoriteCities.map((fav) => {
+      const existsKey = favoriteCities.find((Key) => Key === fav.Key)
       if (existsKey) {
         return existsKey;  
       } 
-        return getCurrentConditionByKey(favKey.Key);
+        return getCurrentConditionByKey(fav.Key);
     });
 
-//     const existKey = favKey.Key
-//     console.log(existKey);
-//     if (favoriteCities.some(fav => fav.Key === existKey)) {
-//         return existKey
-//     } else {
-//         return getCurrentConditionByKey(favKey.Key)
-//     }
-// })
-
-
-    // console.log(promises);
+    console.log(promises,'promises');
     Promise.all(promises).then((response) => {
       const result = response.map((res, i) => {
         return {
@@ -52,11 +43,11 @@ function FavoriteCard() {
           weatherIcon: iconNum(res[0].WeatherIcon),
         };
       });
-
+console.log(result,'result')
       setFavoritesData(result);
     });
     
-  }, []);
+  }, [favoriteCities]);
 
   // console.log("favoritesData", favoritesData);
   // console.log("favoriteCities", favoriteCities);
