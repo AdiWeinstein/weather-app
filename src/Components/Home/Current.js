@@ -5,14 +5,6 @@ function Current({unit}) {
   const { city, current, iconNum} =
     useContext(LocationContext);
 
-    // useEffect(() => {
-    //   getCurrentCondition(locationKey)
-    //   .then(data => {
-    //     console.log("getCurrentCondition" , data)
-    //     setCurrent(data)
-    //   })
-    // }, [locationKey])
-
   return (
     <div className="cityTemp">
       {

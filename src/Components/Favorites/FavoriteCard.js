@@ -13,26 +13,20 @@ function FavoriteCard() {
     getCurrentConditionByKey,
   } = useContext(LocationContext);
 
-
-  const removeFav = (locationKey) =>{
-    console.log('locationKey remove' , locationKey)
-    setFavoriteCities(
-      favoriteCities.filter((fav) => fav.Key !== locationKey)
-    );
-    
-  }
- 
+  const removeFav = (locationKey) => {
+    setFavoriteCities(favoriteCities.filter((fav) => fav.Key !== locationKey));
+  };
 
   useEffect(() => {
     const promises = favoriteCities.map((fav) => {
-      const existsKey = favoriteCities.find((Key) => Key === fav.Key)
+      const existsKey = favoriteCities.find((Key) => Key === fav.Key);
       if (existsKey) {
-        return existsKey;  
-      } 
-        return getCurrentConditionByKey(fav.Key);
+        return existsKey;
+      }
+      return getCurrentConditionByKey(fav.Key);
     });
 
-    console.log(promises,'promises');
+    console.log(promises, "promises");
     Promise.all(promises).then((response) => {
       const result = response.map((res, i) => {
         return {
@@ -43,14 +37,10 @@ function FavoriteCard() {
           weatherIcon: iconNum(res[0].WeatherIcon),
         };
       });
-console.log(result,'result')
+      console.log(result, "result");
       setFavoritesData(result);
     });
-    
   }, [favoriteCities]);
-
-  // console.log("favoritesData", favoritesData);
-  // console.log("favoriteCities", favoriteCities);
 
   return (
     <div className="favorite-card">

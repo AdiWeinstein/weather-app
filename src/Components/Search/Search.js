@@ -15,8 +15,6 @@ function Search() {
     city,
     setCity,
     getLocation,
-    setCurrent,
-    setForcast,
     setFevorite,
   } = useContext(LocationContext);
 

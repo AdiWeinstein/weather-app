@@ -87,11 +87,6 @@ export default function CityProvider({ children }) {
     return data;
   }
 
-  // const getCurrentConditionByKey = (locationKey) => {
-  //   const url = `currentconditions/v1/${locationKey}`;
-  //   callAPI(url, undefined)
-
-  // };
 
   // fetch  5 daily forecast
   const forcastFiveDays = (locationKey) => {
@@ -180,7 +175,6 @@ export default function CityProvider({ children }) {
         forcastFiveDays,
         locationKey,
         setLocationKey,
-        // onPickCity,
         iconNum,
         toCelsius,
         ToFahrenheit,

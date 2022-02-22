@@ -19,7 +19,7 @@
     white-space: nowrap;
 }
 
-a{
+a {
     margin: 7px;
     font-size: 1.1rem;
     line-height: 100%;
@@ -34,7 +34,7 @@ a{
 a:hover {
     border-bottom: 1px solid black;
 }
-.active-link{
+.active-link {
     border-bottom: 1px solid black;
 }
 
@@ -42,11 +42,11 @@ ul {
     list-style: none;
     display: flex;
 }
-@media (max-width: 500px){
-.Logo{
-    font-size: 0.8rem;
-}
-.a{
-    font-size: 0.8rem;
-}
+@media (max-width: 500px) {
+    .Logo {
+        font-size: 0.8rem;
+    }
+    a {
+        font-size: 0.8rem;
+    }
 }

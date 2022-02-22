@@ -4,8 +4,6 @@
     gap: 20px;
     flex-direction: column;
     align-items: center;
-    background: #F6F5FA;
-    /* width: 100%; */
     width: 750px;
     height: 100%;
     margin: 0 auto;
@@ -16,12 +14,12 @@
     color: #606060;
     font-family: 'NTR', sans-serif;
     padding: 20px;
-    
+
 }
-.cityInfo{
+.cityInfo {
     text-align: left;
 }
-.city h2{
+.city h2 {
     font-size: 30px;
     margin: 0;
 
@@ -39,15 +37,13 @@
     gap: 35px;
     align-items: center;
 }
-.city .cityName{
-    /* width: 100%; */
+.city .cityName {
     white-space: nowrap;
     font-size: 40px;
     margin-bottom: 0;
-   
+
 }
-.city .currentTemp{
-    /* width: 100%; */
+.city .currentTemp {
     white-space: nowrap;
     font-size: 40px;
     margin-top: 15px;
@@ -59,13 +55,11 @@
 
 .city p {
     font-size: 150%;
-   margin-top: 0;
+    margin-top: 0;
 }
 
 img {
-    /* background-image: url(""); */
     width: 80px;
-    /* height: 80px; */
     background-size: contain;
 }
 
@@ -76,17 +70,15 @@ img {
     color: #C0B3BC;
 }
 
-
 .dayTemp {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     max-width: 750px;
-    gap:15px;
+    gap: 15px;
 
 }
 .day {
-    /* border: 1px solid; */
     margin: 0 20px;
     display: flex;
     flex-direction: column;
@@ -96,84 +88,79 @@ img {
     gap: 20px;
     width: 100px;
 }
-.icon{
+.icon {
     width: 150px;
 }
 
-.day h4{
-    /* white-space: nowrap; */
-    margin: 0px; 
+.day h4 {
+    margin: 0;
     font-weight: 400;
     text-align: center;
     line-height: 1.5;
     height: 50px;
 
-    
 }
-.day h3{
+.day h3 {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 400;
     font-size: 14px;
 }
-.day p{
-    margin: 0;
-    margin-bottom: 20px;
+.day p {
+    margin: 0 0 20px;
 }
-.c-to-f-btn{
+.c-to-f-btn {
     border: none;
     border-radius: 15px;
-    background-color:#C0B3BC ;
+    background-color: #C0B3BC;
     font-family: 'NTR', sans-serif;
     color: #606060;
     padding: 0 15px;
 
 }
-
-@media (max-width: 850px){
-    .Card{
+@media (max-width: 850px) {
+    .Card {
         width: 620px;
     }
-    .topLine{
+    .topLine {
         width: 600px;
     }
-    .dayTemp{
+    .dayTemp {
         width: 580px;
-        gap:0;
+        gap: 0;
     }
-    .day{
+    .day {
         margin: 0;
-        gap:0; 
+        gap: 0;
     }
-} 
-
-@media (max-width: 700px){
-    .Card{
+}
+@media (max-width: 700px) {
+    .Card {
         width: 250px;
-       
+
     }
-    .topLine{
+    .topLine {
         display: flex;
         flex-direction: column;
     }
-    .cityTemp{
+    .cityTemp {
         flex-direction: column;
-        gap:0;
-        
+        gap: 0;
+
     }
-    .cityInfo{
+    .cityInfo {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .dayTemp{
+    .dayTemp {
         flex-direction: column;
         width: 150px;
         align-items: center;
         gap: 15px;
-     
+
     }
-    .day{
+    .day {
         border: 1px solid #C0B3BC;
         border-radius: 5px;
         width: 150px;
